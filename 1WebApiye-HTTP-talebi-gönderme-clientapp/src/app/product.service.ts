@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
 import { Model, Product } from './Model';
 
 @Injectable({
@@ -6,12 +8,13 @@ import { Model, Product } from './Model';
 })
 export class ProductService {
 
+  baseUrl:string ="http://localhost:5000/";
   model = new Model();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getProducts() {
-    return this.model.products;
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.baseUrl + 'api/products');
   }
 
   getProductById(id: number) {
@@ -20,7 +23,6 @@ export class ProductService {
 
   saveProduct(product: Product) {
     if (product.id == 0) {
-      product.id=this.getProducts().length+1;
       this.model.products.push(product);
     }else{
       const p =this.getProductById(product.id);
@@ -28,6 +30,9 @@ export class ProductService {
       p.price=product.price;
       p.isActive=product.isActive
     }
+  }
+  deleteProduct(product:Product){
+    this.model.products=this.model.products.filter(p=>p!==product);//sileceğin elemanı sil sonrasını geri gönder demek oluyor
   }
 
 }
