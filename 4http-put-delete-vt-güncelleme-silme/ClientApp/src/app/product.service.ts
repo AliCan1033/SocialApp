@@ -8,7 +8,7 @@ import { Model, Product } from './Model';
 })
 export class ProductService {
 
-  baseUrl: string = "http://localhost:5000/";
+  baseUrl: string = "http://localhost:5000/";//webapiyi tanıması için
   model = new Model();
 
   constructor(private http: HttpClient) { }
@@ -24,6 +24,11 @@ export class ProductService {
     return this.http.put<Product>(this.baseUrl + 'api/products/' + product.productId,product);
   }
 
+  deleteProduct(product: Product): Observable<Product> {
+    return this.http.delete<Product>(this.baseUrl+'api/products/'+ product.productId);
+  }
+
+
   getProductById(id: number) {
     return this.model.products.find(i => i.id == id);
   }
@@ -38,8 +43,6 @@ export class ProductService {
       p.isActive = product.isActive
     }
   }
-  deleteProduct(product: Product) {
-    this.model.products = this.model.products.filter(p => p !== product);//sileceğin elemanı sil sonrasını geri gönder demek oluyor
-  }
+
 
 }

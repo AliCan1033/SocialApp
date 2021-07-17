@@ -28,7 +28,9 @@ export class ProductsComponent implements OnInit {
   }
 
   deleteProduct(product:Product){
-    this.productService.deleteProduct(product);
+    this.productService.deleteProduct(product).subscribe(p=>{
+      this.products.splice(this.products.findIndex(p=>p.productId == product.productId),1);
+    });
   }
 
 }

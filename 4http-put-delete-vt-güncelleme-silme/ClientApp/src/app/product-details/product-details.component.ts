@@ -11,7 +11,7 @@ export class ProductDetailsComponent implements OnInit {
 
 
   @Input() product: Product;
-  @Input() products: Product[ ];
+  @Input() products: Product[];
 
 
   constructor(private productService:ProductService) { }
