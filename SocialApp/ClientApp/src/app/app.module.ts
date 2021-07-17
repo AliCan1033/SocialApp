@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -19,6 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { AuthGuard } from './_guards/auth-guard';
+import { ErrorInterceptor } from './_service/error.intercaptor';
 
 
 
@@ -44,7 +45,11 @@ import { AuthGuard } from './_guards/auth-guard';
     FormsModule,//html kısımlarında ng submit vs form da kullandığımız bilgiler için
     RouterModule.forRoot(appRoutes)//localhost:4200/members vs için routes.ts
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,{
+    provide:HTTP_INTERCEPTORS,
+    useClass:ErrorInterceptor,
+    multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

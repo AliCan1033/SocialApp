@@ -1,5 +1,6 @@
 import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { AlertifyService } from '../_service/alertify.service';
 import { AuthService } from '../_service/auth.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class RegisterComponent implements OnInit {
 
   model:any ={};
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,private alertify:AlertifyService) { }
 
   ngOnInit(): void {
   }
@@ -19,9 +20,9 @@ export class RegisterComponent implements OnInit {
   register(){
     // console.log(this.model);
     this.authService.register(this.model).subscribe(()=>{
-      console.log("kullanıcı oluşturuldu");
+      this.alertify.success("kullanıcı oluşturuldu");
     },error=>{
-      console.log(error);
+      this.alertify.error(error);
     });
   }
 

@@ -31,11 +31,16 @@ namespace ServerApp.Controllers
         [HttpPost("register")]// localhos:5000/api/user/register
         public async Task<IActionResult> Register(UserForRegisterDTO model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var user = new User{
                 UserName = model.UserName,
                 Email= model.Email,
                 Name = model.Name,
-                Gender = model.Gender
+                Gender = model.Gender,
+                Created = DateTime.Now,
+                LastActive = DateTime.Now
             };
             var result =await _userManager.CreateAsync(user,model.Password);
             if (result.Succeeded)
@@ -47,7 +52,10 @@ namespace ServerApp.Controllers
         [HttpPost("login")]// localhos:5000/api/user/login
         public async Task<IActionResult> Login(UserForLoginDTO model)
         {
-            throw new Exception("Interval Exception");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+                
+            //throw new Exception("Interval Exception");
 
             var user  = await _userManager.FindByNameAsync(model.UserName);
 

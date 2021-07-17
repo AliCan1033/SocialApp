@@ -27,12 +27,12 @@
           <form  *ngIf="!loggedIn()" #form="ngForm" class="form-inline mt-2 mt-md-0 ml-auto" (ngSubmit)="login()">
             <input #username="ngModel" class="form-control form-control-sm mr-sm-2" required minlength="5" type="search" name="username" placeholder="Username" [(ngModel)]="model.username">
             <input #password="ngModel" class="form-control form-control-sm mr-sm-2" required minlength="6" type="password" name="password" placeholder="Password" [(ngModel)]="model.password">
-            <button [disabled]="form.invalid" class="btn btn-success btn-sm my-2 my-sm-0" type="submit">Login</button>
+            <button class="btn btn-success btn-sm my-2 my-sm-0" type="submit">Login</button>
           </form>
         </div>
   </div>
 </div>
-
+<!-- [disabled]="form.invalid"  Bu kısmı buttonda eklersek valid olmadan tıklamaya izin vermez-->
 <!-- <div style="margin-top: 100px;">
   <p>form valid: {{form.valid}}</p>
   <p>form invalid {{form.invalid}}</p>
