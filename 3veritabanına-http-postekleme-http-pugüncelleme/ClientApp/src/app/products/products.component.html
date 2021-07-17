@@ -24,9 +24,9 @@
       </table>
     </div>
     <div class="col-md-5">
-      <product-details [product]="selectedProduct"></product-details>
+      <product-details [product]="selectedProduct" [products]="products" ></product-details>
         <hr class="my-3">
-      <product-form></product-form>
+      <product-form [products]="products"></product-form>
     </div>
   </div>
 </div>

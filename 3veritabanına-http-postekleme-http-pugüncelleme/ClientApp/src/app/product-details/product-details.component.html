@@ -1,5 +1,5 @@
 <div *ngIf="product">
-  <input type="hidden" #id [value]="id" name="id">
+  <input type="hidden" #id [value]="product.productId" name="id">
   <div class="form-group">
     <label for="name">name</label>
     <input [value]="product.name" #name type="text" class="form-control" name="name">

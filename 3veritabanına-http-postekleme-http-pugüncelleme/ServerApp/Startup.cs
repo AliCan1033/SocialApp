@@ -29,14 +29,16 @@ namespace ServerApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SocialContext>(x => x.UseSqlite("Data Source=social.db"));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddCors(options=>{
                 options.AddPolicy(//burada AddPolicy değilde AddDefaultPolicy name bilgisine ve aşşağıda ki app.UseCors(); name bilgisini göndermenize gerek yok eğer çok fazla policy ekliyorsanız name bilgisini kullanmanız gerekir
                     name:MyAllowOrigins,
                     builder =>{
                         builder
                         .WithOrigins("http://localhost:4200")
-                        .WithMethods("GET");
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                        // .WithMethods("GET");//sadece get istersen POST DELETE PUSH vs ekleyebilirsin 
                         // .AllowAnyOrigin() //herhangi bir adresten gelen talepleri karşılar
                         // .AllowAnyHeader()  //header requestin herhangi bir paremetreye sahip olup olmadığına bakmadan yollar  
                         // .AllowAnyMethod();  //herhang bir metoda göre (post,get,pop,push) karşılayabliriz
