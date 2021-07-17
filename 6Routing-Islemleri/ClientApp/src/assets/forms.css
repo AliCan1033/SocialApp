@@ -1,0 +1,7 @@
+.form-control.ng-touched.ng-invalid{/*inputlara tıklanmış ve değer girilmemişse kırmızı */
+  border-left: 5px solid #a94442;
+}
+
+.form-control.ng-dirty.ng-valid{/*inputlara tıklanmış ve değer girilmişse yeşil */
+border-left: 5px solid #42A948;
+}
