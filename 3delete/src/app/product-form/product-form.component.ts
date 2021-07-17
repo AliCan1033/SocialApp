@@ -18,7 +18,7 @@ export class ProductFormComponent implements OnInit {
     console.log(price);
     console.log(isActive);
 
-    const p = new Product(this.productService.getProducts().length+1,name,price,isActive);
-    this.productService.addProduct(p);
+    const p = new Product(0,name,price,isActive);
+    this.productService.saveProduct(p);
   }
 }
