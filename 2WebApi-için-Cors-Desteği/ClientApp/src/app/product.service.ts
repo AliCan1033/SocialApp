@@ -22,10 +22,10 @@ export class ProductService {
   }
 
   saveProduct(product: Product) {
-    if (product.id == 0) {
+    if (product.productId == 0) {
       this.model.products.push(product);
     }else{
-      const p =this.getProductById(product.id);
+      const p =this.getProductById(product.productId);
       p.name=product.name;
       p.price=product.price;
       p.isActive=product.isActive
