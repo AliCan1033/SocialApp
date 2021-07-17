@@ -47,6 +47,8 @@ namespace ServerApp.Controllers
         [HttpPost("login")]// localhos:5000/api/user/login
         public async Task<IActionResult> Login(UserForLoginDTO model)
         {
+            throw new Exception("Interval Exception");
+
             var user  = await _userManager.FindByNameAsync(model.UserName);
 
             if(user == null)
