@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ServerApp.Data;
+using ServerApp.Models;
 
 namespace ServerApp
 {
@@ -29,6 +31,20 @@ namespace ServerApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SocialContext>(x => x.UseSqlite("Data Source=social.db"));
+            services.AddIdentity<User,Role>().AddEntityFrameworkStores<SocialContext>();
+            services.Configure<IdentityOptions>(options =>{
+                options.Password.RequireDigit=true; //sayı olacak
+                options.Password.RequireLowercase=true;//küçük harf olacak
+                options.Password.RequireUppercase=true;//büyük harf olacak
+                options.Password.RequireNonAlphanumeric=true;//-. _ @ + tarzı olacak 
+
+                options.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromMinutes(5);//5 dk ban yersin
+                options.Lockout.MaxFailedAccessAttempts=5;//5 kere yanlış giriş yaparsan 
+                options.Lockout.AllowedForNewUsers=true;
+
+                options.User.AllowedUserNameCharacters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-. _ @ +";//kullanıcı bunlardan oluşacak 
+                options.User.RequireUniqueEmail=true;//1 mail sadece bir kere register olur
+            });
             services.AddControllers().AddNewtonsoftJson();//price bilgisi angular tarafına number burada decimal olduğu için tanıyamadı birde NewtonsoftJson paketini ekleyip burayada bunu ekledik
             services.AddCors(options=>{
                 options.AddPolicy(//burada AddPolicy değilde AddDefaultPolicy name bilgisine ve aşşağıda ki app.UseCors(); name bilgisini göndermenize gerek yok eğer çok fazla policy ekliyorsanız name bilgisini kullanmanız gerekir
@@ -57,6 +73,8 @@ namespace ServerApp
             app.UseRouting();
 
             app.UseCors(MyAllowOrigins); //erişim için yukarda hangi corsu verdiysek o etkin olmuş oluyor. Çünkü AddPolicy kısımlarını arttırabiliriz
+
+            app.UseAuthentication();//yukardaki user ayarlamaları için 
 
             app.UseAuthorization();
 

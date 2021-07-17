@@ -28,7 +28,6 @@ export class ProductService {
     return this.http.delete<Product>(this.baseUrl+'api/products/'+ product.productId);
   }
 
-
   getProductById(id: number) {
     return this.model.products.find(i => i.id == id);
   }
