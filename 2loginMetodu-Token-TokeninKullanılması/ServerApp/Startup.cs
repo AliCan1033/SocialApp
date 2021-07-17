@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using ServerApp.Data;
 using ServerApp.Models;
 
@@ -40,7 +43,7 @@ namespace ServerApp
 
                 options.Lockout.DefaultLockoutTimeSpan=TimeSpan.FromMinutes(5);//5 dk ban yersin
                 options.Lockout.MaxFailedAccessAttempts=5;//5 kere yanlış giriş yaparsan 
-                options.Lockout.AllowedForNewUsers=true;
+                options.Lockout.AllowedForNewUsers=true;//username bilgisinin aynısı ile başka username oluşturulamaz
 
                 options.User.AllowedUserNameCharacters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-. _ @ +";//kullanıcı bunlardan oluşacak 
                 options.User.RequireUniqueEmail=true;//1 mail sadece bir kere register olur
@@ -57,6 +60,20 @@ namespace ServerApp
                         // .WithMethods("GET");//sadece get istersen POST DELETE PUSH vs ekleyebilirsin 
                         // .AllowAnyOrigin() //herhangi bir adresten gelen talepleri karşılar
                     });    
+            });
+            services.AddAuthentication(x => {
+                x.DefaultAuthenticateScheme=JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme=JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>{//token için validation
+                x.RequireHttpsMetadata=false;//true olursa sadee httpden gelen isteklere bakar
+                x.SaveToken=true;//servera kayıt edilsin mi  ?
+                x.TokenValidationParameters=new TokenValidationParameters{
+                    ValidateIssuerSigningKey=true,//tokeni yazanın issuer key bilgisi
+                    IssuerSigningKey=new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Secret").Value)),//token bilggisinin neredetanımladı nasıl geleceği
+                    ValidateIssuer =false,//gönderen bilgisi
+                    ValidateAudience=false//hangi firmalar için oluşturmuşuz
+                };
             });
         }
 

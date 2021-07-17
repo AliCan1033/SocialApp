@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerApp.Data;
@@ -10,6 +11,8 @@ using ServerApp.Models;
 
 namespace ServerApp.Controllers
 {
+    //localhost:5000/api/products
+    [Authorize]//sadece token bilgisi olan yani izinli olan istek yollayabilir
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
@@ -21,8 +24,9 @@ namespace ServerApp.Controllers
         {
             _context = context;
         }
-
+         //localhost:5000/api/products
         [HttpGet]
+        [AllowAnonymous]//buna herkes istek yollayabilir
         public async Task<IActionResult> GetProducts() //metodu asenkron hale getirdik yani tüm bilgiler gelene kadar bekleyecek sonra getirecek
         {
             var products = await _context.Products
@@ -30,6 +34,7 @@ namespace ServerApp.Controllers
             .ToListAsync();
             return Ok(products);
         }
+         //localhost:5000/api/products/1,2,3 ..
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
@@ -66,7 +71,7 @@ namespace ServerApp.Controllers
                 await _context.SaveChangesAsync();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return NotFound();
             }
