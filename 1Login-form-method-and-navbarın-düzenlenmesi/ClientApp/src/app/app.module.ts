@@ -8,6 +8,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { from } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { from } from 'rxjs';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule//html kısımlarında ng submit vs form da kullandığımız bilgiler için
   ],
   providers: [],
   bootstrap: [AppComponent]
