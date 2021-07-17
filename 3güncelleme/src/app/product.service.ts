@@ -29,8 +29,5 @@ export class ProductService {
       p.isActive=product.isActive
     }
   }
-  deleteProduct(product:Product){
-    this.model.products=this.model.products.filter(p=>p!==product);//sileceğin elemanı sil sonrasını geri gönder demek oluyor
-  }
 
 }
