@@ -1,0 +1,7 @@
+.form-control.ng-touched.ng-invalid{/*kullanıcı o kısma dokunda ama herhangi bir değer girmedi */
+  border-left: 5px solid #a94442;
+}
+
+.form-control.ng-dirty.ng-valid{/*kullanıcı o kısma değer girmiş ve vali olmuş ise */
+border-left: 5px solid #42A948;
+}
