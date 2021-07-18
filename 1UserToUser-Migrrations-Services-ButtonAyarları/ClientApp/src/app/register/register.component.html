@@ -1,0 +1,84 @@
+
+<div class="container mb-5" style="margin-top: 50px;">
+  <div class="row">
+    <div class="col-6">
+      <form #form="ngForm" (ngSubmit)="register()">
+        <h2>Register</h2>
+        <hr>
+
+        <div class="form-group">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input"
+              type="radio"
+              id="radioMale"
+              name="gender"
+              #gender="ngModel"
+              [(ngModel)]="model.gender" value="male" required>
+            <label class="form-check-label" for="male">Male</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input"
+            type="radio"
+            id="radioFamale"
+            name="gender"
+            #gender="ngModel"
+            [(ngModel)]="model.gender" value="famale" required>
+            <label class="form-check-label" for="famale">Famele</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input required minlength="5" maxlength="25" #name="ngModel" [(ngModel)]="model.name" type="text" name="name" class="form-control" placeholder="Name">
+          <div class="alert alert-danger" *ngIf="name.invalid && name.touched">
+            <p *ngIf="name.errors.required">Name is Required</p>
+            <p *ngIf="name.errors.minlength">Min. 5 charactes</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input required minlength="8" #username="ngModel" [(ngModel)]="model.username" type="text" name="username" class="form-control" placeholder="UserName">
+          <div class="alert alert-danger" *ngIf="username.invalid && username.touched">
+            <p *ngIf="username.errors.required">username is Required</p>
+            <p *ngIf="username.errors.minlength">Min. 8 charactes</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <input required email #email="ngModel" [(ngModel)]="model.email" type="email" name="email" class="form-control" placeholder="Email">
+          <div class="alert alert-danger" *ngIf="email.invalid && email.touched">
+            <p *ngIf="email.errors.required">email is Required</p>
+            <p *ngIf="email.errors.email">You must enver mail type</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <input required minlength="6" maxlength="15" #password="ngModel" [(ngModel)]="model.password" type="password" name="password" class="form-control" placeholder="Password">
+          <div class="alert alert-danger" *ngIf="password.invalid && password.touched">
+            <p *ngIf="password.errors.required">password is Required</p>
+            <p *ngIf="password.errors.minlength">Min. 6 charactes</p>
+            <p *ngIf="password.errors.maxlength">Max. 15 charactes</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <input required  #dateofbirth="ngModel" [(ngModel)]="model.dateofbirth" type="date" name="dateofbirth" class="form-control">
+          <div class="alert alert-danger" *ngIf="dateofbirth.invalid && dateofbirth.touched">
+            <p *ngIf="password.errors.required">dateofbirth is Required</p>
+
+          </div>
+        </div>
+        <div class="form-group">
+          <input required  #country="ngModel" [(ngModel)]="model.country" type="text" name="country" class="form-control" placeholder="Country">
+          <div class="alert alert-danger" *ngIf="country.invalid && country.touched">
+            <p *ngIf="country.errors.required">country is Required</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <input required  #city="ngModel" [(ngModel)]="model.city" type="text" name="city" class="form-control" placeholder="City">
+          <div class="alert alert-danger" *ngIf="city.invalid && city.touched">
+            <p *ngIf="city.errors.required">city is Required</p>
+          </div>
+        </div>
+
+        <button [disabled]="form.invalid" type="submit" class="btn btn-primary btn-block">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
