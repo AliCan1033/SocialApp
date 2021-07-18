@@ -26,9 +26,12 @@ namespace ServerApp.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> GetUsers()
+        // ...api/users?followers=true&gender=male
+        public async Task<IActionResult> GetUsers([FromQuery]UserQueryParams userParams)
         {
-            var users = await _repository.GetUsers();
+            userParams.UserId =int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var users = await _repository.GetUsers(userParams);
             var result = _mapper.Map<IEnumerable<UserForListDTO>>(users);
             return Ok(result);
         }

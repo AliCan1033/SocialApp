@@ -26,7 +26,7 @@ export class MemberDetailsComponent implements OnInit {
   followUser(userId:number){
     this.userService.followUser(this.authService.decodedToken.nameid,userId)
                     .subscribe(result =>{
-                      this.alertfy.success(this.user.name+'kullanıcı takibe alındı');
+                      this.alertfy.success(this.user.name +' adlı kullanıcı takibe alındı');
                       this.followText='Already Follow';
                     },err=>{
                       this.alertfy.error(err);

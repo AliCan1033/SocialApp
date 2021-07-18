@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { User } from "../_models/user";
@@ -12,8 +12,15 @@ export class UserService {
   baseUrl: string = "http://localhost:5000/api/users/";
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl);
+  getUsers(followParams?): Observable<User[]> {
+    let params = new HttpParams();
+    if (followParams ==='followers') {
+      params=params.append('followers','true')
+    }
+    if (followParams ==='followings') {
+      params=params.append('followings','true')
+    }
+    return this.http.get<User[]>(this.baseUrl,{params:params});
   }
 
   getUser(id: number): Observable<User> {

@@ -11,6 +11,7 @@ import { User } from '../../_models/user';
 export class MemberListComponent implements OnInit {
 
   users: User[];
+  public loading = false;
 
   constructor(private userService: UserService, private alertify: AlertifyService) { }
 
@@ -19,9 +20,12 @@ export class MemberListComponent implements OnInit {
   }
 
   getUsers(){
+    this.loading=true;
     this.userService.getUsers().subscribe(users =>{
+      this.loading=false;
       this.users = users;
     },err =>{
+      this.loading=false;
       this.alertify.error(err);
     })
   }

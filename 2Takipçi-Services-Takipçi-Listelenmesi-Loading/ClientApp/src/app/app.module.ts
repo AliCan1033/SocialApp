@@ -28,6 +28,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './_resolvers/membet-edit.resolver';
 import { TimeagoModule } from 'ngx-timeago';
 import { MemberDetailsResolver } from './_resolvers/membet-details.resolver';
+import { NgxLoadingModule } from 'ngx-loading';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -58,6 +59,7 @@ export function tokenGetter() {
     HttpClientModule,//wep api için bağlantı için
     FormsModule,//html kısımlarında ng submit vs form da kullandığımız bilgiler için
     TimeagoModule.forRoot(),//zaman ile ilgili bilgileri sadeleştirmek veya düzenli hale geitirmek gibi hesaplar iççm
+    NgxLoadingModule.forRoot({}),//members ekranına geçerken yükleme animasyonu gelir
     JwtModule.forRoot({//normalde user.sevice.ts ve yokenle kullanacağımız her yerde headers Authorization ve bearer bilgilerini belirtmemiz lazımdı
       config: {
         tokenGetter: tokenGetter,

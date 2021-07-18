@@ -1,0 +1,58 @@
+
+
+<div class="container mt-3">
+
+   <div class="row mb-3">
+     <div class="col-12">
+       <div class="card">
+         <div class="card-body">
+
+          <div class="form-check">
+            <input class="form-check-input"
+                type="radio"
+                name="radioFollows"
+                id="radioFollowers"
+                value="followings"
+                [(ngModel)]="followParams"
+                (change)="getUsers()">
+            <label class="form-check-label" for="radioFollowers">
+              Takip Edilenler
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input"
+            type="radio"
+            name="rodioFollows"
+            id="radioFollowings"
+            value="followers"
+            [(ngModel)]="followParams"
+            (change)="getUsers()"
+            checked>
+            <label class="form-check-label" for="radioFollowings">
+              Takipçiler
+            </label>
+          </div>
+         </div>
+       </div>
+     </div>
+   </div>
+
+  <div class="user-lits">
+    <div class="row">
+      <div *ngFor="let user of users" class="col-lg-3 col-md-4 col-sm-6 col-6">
+        <div class="user_profile_info">
+          <div class="user-up-info">
+            <img src="{{user.imageUrl || 'assets/user.jpg'}}" alt="">
+            <h3>{{user.name}},<small>{{user.age}}</small></h3>
+            <h4 style="height: 20px;">{{user.country}},{{user.city}}</h4>
+            <button class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-plus"></i>
+              Arkadaş Ekle
+            </button>
+          </div>
+          <a [routerLink]="['/members/',user.id]" class="view-more">View Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
