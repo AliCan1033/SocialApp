@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ServerApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System;
 
 namespace ServerApp.Data
 {
@@ -34,10 +35,11 @@ namespace ServerApp.Data
 
         public async Task<IEnumerable<User>> GetUsers(UserQueryParams userParams)
         {
-            await Task.Delay(3000);
+            await Task.Delay(1000);
             var users =  _context.Users
                                 .Where(i => i.Id!=userParams.UserId)
                                 .Include(i => i.Images)
+                                .OrderByDescending(i =>i.LastActive)//sıralamayı son aktif olan kişiye göre yapar
                                 .AsQueryable();
             
             if (userParams.Followers)//takip edenler
@@ -46,13 +48,43 @@ namespace ServerApp.Data
                 users=users.Where(u =>result.Contains(u.Id));
             }
             
-            if (userParams.Followings)
+            if (userParams.Followings)//takip edilenler{
             {
                 var result= await GetFollows(userParams.UserId,true);
                 users=users.Where(u =>result.Contains(u.Id));
                 
-            }//takip edilenler{
-                
+            }
+            if (!string.IsNullOrEmpty(userParams.Gender))
+            {
+                users =users.Where(i =>i.Gender==userParams.Gender);
+            }
+            if (userParams.minAge!=18 || userParams.maxAge!=100)
+            {
+                var today = DateTime.Now;
+                var min = today.AddYears(-(userParams.maxAge+1));
+                var max = today.AddYears(-userParams.minAge);
+                users= users.Where(i =>i.DateOfBirth>=min && i.DateOfBirth<=max);
+            }
+            if (!string.IsNullOrEmpty(userParams.City))
+            {
+              users= users.Where(i => i.City.ToLower()==userParams.City.ToLower());
+            }  
+            if (!string.IsNullOrEmpty(userParams.Country))
+            {
+              users= users.Where(i => i.Country.ToLower()==userParams.Country.ToLower());
+            }    
+
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                if (userParams.OrderBy=="age")
+                {
+                    users = users.OrderBy(i => i.DateOfBirth);
+                }
+                else if (userParams.OrderBy=="created")
+                {
+                    users =users.OrderByDescending(i =>i.Created);
+                }
+            }
             
             return await users.ToListAsync();
         }

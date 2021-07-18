@@ -12,16 +12,21 @@ export class MemberListComponent implements OnInit {
 
   users: User[];
   public loading = false;
+  userParams: any ={};
 
   constructor(private userService: UserService, private alertify: AlertifyService) { }
 
   ngOnInit(): void {
+    this.userParams.orderby="lastactive";
     this.getUsers();
   }
 
   getUsers(){
     this.loading=true;
-    this.userService.getUsers().subscribe(users =>{
+
+    //console.log(this.userParams);
+
+    this.userService.getUsers(null,this.userParams).subscribe(users =>{
       this.loading=false;
       this.users = users;
     },err =>{
