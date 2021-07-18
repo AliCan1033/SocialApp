@@ -38,11 +38,6 @@ namespace ServerApp.Data
             return users;
         }
 
-        public async Task<bool> IsAlreadyFollowed(int followerUserId, int userdId)
-        {
-            return await _context.UserToUSers.AnyAsync(i =>i.FollowerId == followerUserId && i.UserId==userdId);
-        }
-
         public async Task<bool> SaveChanges()
         {
             return await _context.SaveChangesAsync()>0;

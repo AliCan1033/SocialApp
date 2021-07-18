@@ -15,8 +15,6 @@ namespace ServerApp.Models
         public string Country { get; set; }
         public string Introduction { get; set; }
         public string Hobbies { get; set; }
-        public ICollection<Image> Images { get; set; }//kullanıcıya ait profiil fotosu ve ve fotonun özellikleri
-        public ICollection<UserToUser> Followings { get; set; }//bir kullanıcının takip ettikleri
-        public ICollection<UserToUser> Followers { get; set; }//bir kullanıcıyı takip edenler
+        public List<Image> Images { get; set; }
     }
 }

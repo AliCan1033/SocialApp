@@ -7,7 +7,6 @@ using ServerApp.DTO;
 using AutoMapper;
 using System.Security.Claims;
 using ServerApp.Helpers;
-using ServerApp.Models;
 
 namespace ServerApp.Controllers
 {
@@ -56,37 +55,6 @@ namespace ServerApp.Controllers
 
             throw new System.Exception("güncelleme sırasında hata oluştu");
             
-        }
-        //localhost:5001/api/users/follow/3..
-        [HttpPost("{followerUserId}/follow/{userId}")]
-        public async Task<IActionResult> FollowerUser(int followerUserId, int userId)
-        {
-            if(followerUserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))//token kiminse işlem yapar
-             return Unauthorized();
-
-            if(followerUserId==userId)
-             return BadRequest("Kendinizi Takip Edemezsiniz");
-            
-            var IsAlreadyFollowed = await _repository.IsAlreadyFollowed(followerUserId,userId);
-
-            if(IsAlreadyFollowed)
-             return BadRequest("Zaten Kullanıcıyı Takip Ediyorsunuz");
-
-            if(await _repository.GetUser(userId)==null)
-             return NotFound();
-            
-            var follow = new UserToUser(){
-                UserId =userId,
-                FollowerId = followerUserId
-            };
-            
-            _repository.Add<UserToUser>(follow);
-            
-            if(await _repository.SaveChanges())
-             return Ok();
-            
-            return BadRequest("Hata Oluştu");
-                        
         }
     }
 }
