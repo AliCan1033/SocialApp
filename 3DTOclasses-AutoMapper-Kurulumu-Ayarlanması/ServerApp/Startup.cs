@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -53,6 +54,7 @@ namespace ServerApp
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-. _ @ +";//kullanıcı bunlardan oluşacak 
                 options.User.RequireUniqueEmail = true;//1 mail sadece bir kere register olur
             });
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers().AddNewtonsoftJson(options => {
                 options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });//price bilgisi angular tarafına number burada decimal olduğu için tanıyamadı birde NewtonsoftJson paketini ekleyip burayada bunu ekledik
