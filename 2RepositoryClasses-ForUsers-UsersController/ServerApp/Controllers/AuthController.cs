@@ -15,13 +15,13 @@ namespace ServerApp.Controllers
     
     [ApiController]
     [Route("api/[controller]")]// localhos:5000/api/user 
-    public class UserController:ControllerBase
+    public class AuthController:ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configurations;
 
-        public UserController(UserManager<User> userManager,SignInManager<User> signInManager, IConfiguration configurations)
+        public AuthController(UserManager<User> userManager,SignInManager<User> signInManager, IConfiguration configurations)
         {
             _userManager=userManager;
             _signInManager = signInManager;

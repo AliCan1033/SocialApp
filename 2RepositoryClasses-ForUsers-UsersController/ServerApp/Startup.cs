@@ -38,6 +38,7 @@ namespace ServerApp
         {
             services.AddDbContext<SocialContext>(x => x.UseSqlite("Data Source=social.db"));
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<SocialContext>();
+            services.AddScoped<ISocialRepository,SocialRepository>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true; //sayı olacak
@@ -52,7 +53,9 @@ namespace ServerApp
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-. _ @ +";//kullanıcı bunlardan oluşacak 
                 options.User.RequireUniqueEmail = true;//1 mail sadece bir kere register olur
             });
-            services.AddControllers().AddNewtonsoftJson();//price bilgisi angular tarafına number burada decimal olduğu için tanıyamadı birde NewtonsoftJson paketini ekleyip burayada bunu ekledik
+            services.AddControllers().AddNewtonsoftJson(options => {
+                options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });//price bilgisi angular tarafına number burada decimal olduğu için tanıyamadı birde NewtonsoftJson paketini ekleyip burayada bunu ekledik
             services.AddCors(options =>
             {
                 options.AddPolicy(//burada AddPolicy değilde AddDefaultPolicy name bilgisine ve aşşağıda ki app.UseCors(); name bilgisini göndermenize gerek yok eğer çok fazla policy ekliyorsanız name bilgisini kullanmanız gerekir

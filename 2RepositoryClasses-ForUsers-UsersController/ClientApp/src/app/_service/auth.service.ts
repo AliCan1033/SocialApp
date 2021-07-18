@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 export class AuthService {
 
 
-  baseUrl: string = "http://localhost:5000/api/user/";//çünkü service kısmında login olabilmesi için "http://localhost:5000/api/user/login olması gerekiyor"
+  baseUrl: string = "http://localhost:5000/api/auth/";//çünkü service kısmında login olabilmesi için "http://localhost:5000/api/user/login olması gerekiyor"
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 
